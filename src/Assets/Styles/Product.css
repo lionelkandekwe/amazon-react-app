@@ -25,6 +25,9 @@
 .product_price {
   margin-top: 5px;
 }
+.product_rating {
+  display: flex;
+}
 
 .product > button {
   background: #f3a846;
