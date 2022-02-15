@@ -1,8 +1,37 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React, { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import "../Assets/Styles/Login.css"
+import { auth } from "../firebase"
 
 const Login = () => {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const navigate = useNavigate()
+
+  const signIn = (e) => {
+    e.preventDefault()
+
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((auth) => {
+        navigate("/")
+      })
+      .catch((error) => alert(error.message))
+  }
+
+  const register = (e) => {
+    e.preventDefault()
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((auth) => {
+        if (auth) {
+          navigate("/")
+        }
+      })
+      .catch((error) => alert(error.message))
+  }
+
   return (
     <div className="login">
       <Link to="/">
@@ -15,19 +44,29 @@ const Login = () => {
         <h1>Sign in</h1>
         <form>
           <h5>E-mail</h5>
-          <input type="text" />
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
           <h5>Password</h5>
-          <input type="password" />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-          <button className="login_signinButton">Sign In</button>
+          <button type="submit" className="login_signinButton" onClick={signIn}>
+            Sign In
+          </button>
 
           <p>
             By signing-in you agree to the Amazon React Application Conditions
             of Use & Sale.Please see our Privacy Notice,our Cookies Notice and
             our Interest-Based Ads Notice.
           </p>
-          <button className="login_registerButton">
+          <button className="login_registerButton" onClick={register}>
             Create your Amazon Account
           </button>
         </form>
