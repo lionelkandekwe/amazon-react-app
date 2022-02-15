@@ -4,10 +4,14 @@ import { BrowserRouter } from "react-router-dom"
 import "./index.css"
 import App from "./App"
 import reportWebVitals from "./reportWebVitals"
+import reducer, { initialState } from "./Services/Reducers/reducer"
+import { StateProvider } from "./components/StateProvider"
 
 ReactDOM.render(
   <BrowserRouter>
-    <App />
+    <StateProvider initialState={initialState} reducer={reducer}>
+      <App />
+    </StateProvider>
   </BrowserRouter>,
   document.getElementById("root")
 )
