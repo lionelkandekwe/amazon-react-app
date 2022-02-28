@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
 import CheckoutProduct from "./CheckoutProduct"
+import axios from "../axios"
 import { Link } from "react-router-dom"
 import { useStateValue } from "../components/StateProvider"
 import "../Assets/Styles/Payment.css"
