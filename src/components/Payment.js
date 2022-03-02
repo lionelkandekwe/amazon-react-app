@@ -8,6 +8,7 @@ import "../Assets/Styles/Payment.css"
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import CurrencyFormat from "react-currency-format"
 import { getBasketTotal } from "../Services/Reducers/reducer"
+import { db } from "../firebase"
 
 const Payment = () => {
   const navigate = useNavigate()
@@ -48,6 +49,17 @@ const Payment = () => {
       })
       .then(({ paymentIntent }) => {
         //paymentIntent= paymentConfirmation
+
+        db.collection("users")
+          .doc(user?.uid)
+          .collection("orders")
+          .doc(paymentIntent.id)
+          .set({
+            basket: basket,
+            amount: paymentIntent.amount,
+            created: paymentIntent.created,
+          })
+
         setSucceeded(true)
         setError(null)
         setProcessing(false)
